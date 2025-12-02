@@ -10,24 +10,27 @@ function Home() {
   }
   const [curTag, setCurTag] = useState<string>("");
   const preset: presets = {};
-  function click() {
-    presets["default"].push(curTag);
+  function addTag() {
+    presets["default"].push(" " + curTag);
     setCurTag("");
   }
+  function copyToClipboard() {
+    navigator.clipboard.writeText(presets.default.toString());
+  }
   //filler
-  preset["default"] = ["1 girl", "looking at viewer", "standing"];
+  preset["default"] = [" 1 girl", " looking at viewer", " standing"];
   const [presets, setPresets] = useState<presets>(preset);
   return (
     <main className="home-page">
       <TextBox text={curTag} setText={setCurTag}>
         {" "}
       </TextBox>
-      <Button text={"add tag"} click={click}></Button>
+      <Button text={"add tag"} click={addTag}></Button>
       <TagOutput tags={presets["default"]}></TagOutput>
-      <Button text={"save new preset"} click={click}></Button>
-      <Button text={"save"} click={click}></Button>
-      <Button text={"copy to clipboard"} click={click}></Button>
-      <Button text={"add new preset"} click={click}></Button>
+      <Button text={"save new preset"} click={addTag}></Button>
+      <Button text={"save"} click={addTag}></Button>
+      <Button text={"copy to clipboard"} click={copyToClipboard}></Button>
+      <Button text={"add new preset"} click={addTag}></Button>
     </main>
   );
 }
