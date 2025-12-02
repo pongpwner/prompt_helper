@@ -10,7 +10,7 @@ import PresetTitle from "../components/preset-title";
 export type StringArrayMap = Record<string, string[]>;
 function Home() {
   function addTag() {
-    presets["default"].push(" " + curTag);
+    setDisplayedTags((prevItems) => [...prevItems, " " + curTag]);
     setCurTag("");
   }
   function copyToClipboard() {
@@ -18,6 +18,13 @@ function Home() {
   }
   function changePreset(name: string) {
     setCurPreset(name);
+    setDisplayedTags(presets[name]);
+  }
+  function savePreset() {
+    setPresets((prev) => ({
+      ...prev,
+      [curPreset]: [...displayedTags],
+    }));
   }
   // list of presets
   const [presets, setPresets] = useState<StringArrayMap>({
@@ -27,17 +34,22 @@ function Home() {
   //the tag the user is typing into the text box
   const [curTag, setCurTag] = useState<string>("");
 
-  //the preset that is displayed on the tag output
+  //the preset that is selected by the user.
   const [curPreset, setCurPreset] = useState<string>("default");
+
+  // the tags that will be displayed on screen in tag output. this copies the tags of curPreset so you can edit these without overwriting the original
+  const [displayedTags, setDisplayedTags] = useState<Array<string>>(
+    presets[curPreset]
+  );
   return (
     <main className="home-page">
       <TextBox text={curTag} setText={setCurTag}></TextBox>
       <Button text={"add tag"} click={addTag}></Button>
       <PresetTitle name={curPreset}></PresetTitle>
-      <TagOutput tags={presets[curPreset]}></TagOutput>
+      <TagOutput tags={displayedTags}></TagOutput>
       <PresetList presetsMap={presets} click={changePreset}></PresetList>
       <Button text={"save new preset"} click={addTag}></Button>
-      <Button text={"save"} click={addTag}></Button>
+      <Button text={"save"} click={savePreset}></Button>
       <Button text={"copy to clipboard"} click={copyToClipboard}></Button>
       <Button text={"add new preset"} click={addTag}></Button>
     </main>
