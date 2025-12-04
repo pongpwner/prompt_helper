@@ -27,11 +27,8 @@ function Home() {
       [curPreset]: [...displayedTags],
     }));
   }
-  function addNewPreset() {
-    setIsOpen(true);
-    setDisplayedTags([]);
-  }
-  function saveNewPreset() {
+
+  function createNewPreset() {
     setPresets((prev) => ({
       ...prev,
       [presetName]: [],
@@ -41,6 +38,17 @@ function Home() {
     setDisplayedTags([]);
     setIsOpen(false);
   }
+  function saveToNewPreset() {
+    setPresets((prev) => ({
+      ...prev,
+      [presetName]: [...displayedTags],
+    }));
+    setCurPreset(presetName);
+    setPresetName("");
+
+    setIsOpen(false);
+  }
+
   const [presetName, setPresetName] = useState<string>("");
   // list of presets
   const [presets, setPresets] = useState<StringArrayMap>({
@@ -66,15 +74,21 @@ function Home() {
       <PresetTitle name={curPreset}></PresetTitle>
       <TagOutput tags={displayedTags}></TagOutput>
       <PresetList presetsMap={presets} click={changePreset}></PresetList>
-      <Button text={"save new preset"} click={addTag}></Button>
       <Button text={"save"} click={savePreset}></Button>
       <Button text={"copy to clipboard"} click={copyToClipboard}></Button>
       <Button text={"add new preset"} click={() => setIsOpen(true)}></Button>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <h2>Create New Preset</h2>
         <TextBox setText={setPresetName} text={presetName}></TextBox>
-        <Button click={() => saveNewPreset()} text={"save"}></Button>
+        <Button
+          click={() => createNewPreset()}
+          text={"create new preset"}
+        ></Button>
         <Button click={() => setIsOpen(false)} text={"cancel"}></Button>
+        <Button
+          click={() => saveToNewPreset()}
+          text={"save to new preset"}
+        ></Button>
       </Modal>
     </main>
   );
