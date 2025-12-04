@@ -49,6 +49,10 @@ function Home() {
     setIsOpen(false);
   }
 
+  function sanitize(str: string) {
+    let newTags = str.split(",");
+    return;
+  }
   const [presetName, setPresetName] = useState<string>("");
   // list of presets
   const [presets, setPresets] = useState<StringArrayMap>({
