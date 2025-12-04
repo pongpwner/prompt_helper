@@ -16,3 +16,4 @@ const TextBox: React.FC<TextBoxProps> = ({ text, setText }) => {
   );
 };
 export default TextBox;
+// where the user types tags to be displayed

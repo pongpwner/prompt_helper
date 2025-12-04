@@ -12,3 +12,5 @@ const SavedPreset: React.FC<SavedPresetProps> = ({ name, click, key }) => {
 };
 
 export default SavedPreset;
+
+//this is the individual preset object in the list of saved presets

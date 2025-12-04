@@ -10,3 +10,4 @@ function TagOutput({ tags }: { tags: Array<string> }) {
   );
 }
 export default TagOutput;
+// where the tags that are currently being edited are rendered

@@ -15,3 +15,4 @@ const PresetList: React.FC<PresetListProps> = ({ presetsMap, click }) => {
 };
 
 export default PresetList;
+// this renders the saved presets the user has

@@ -6,6 +6,7 @@ import Button from "../components/button";
 import TagOutput from "../components/tag-output";
 import PresetList from "../components/preset-list";
 import PresetTitle from "../components/preset-title";
+import Modal from "../components/modal";
 
 export type StringArrayMap = Record<string, string[]>;
 function Home() {
@@ -26,6 +27,21 @@ function Home() {
       [curPreset]: [...displayedTags],
     }));
   }
+  function addNewPreset() {
+    setIsOpen(true);
+    setDisplayedTags([]);
+  }
+  function saveNewPreset() {
+    setPresets((prev) => ({
+      ...prev,
+      [presetName]: [],
+    }));
+    setCurPreset(presetName);
+    setPresetName("");
+    setDisplayedTags([]);
+    setIsOpen(false);
+  }
+  const [presetName, setPresetName] = useState<string>("");
   // list of presets
   const [presets, setPresets] = useState<StringArrayMap>({
     default: ["1 girl"],
@@ -41,6 +57,8 @@ function Home() {
   const [displayedTags, setDisplayedTags] = useState<Array<string>>(
     presets[curPreset]
   );
+  //used for the modal
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <main className="home-page">
       <TextBox text={curTag} setText={setCurTag}></TextBox>
@@ -51,7 +69,13 @@ function Home() {
       <Button text={"save new preset"} click={addTag}></Button>
       <Button text={"save"} click={savePreset}></Button>
       <Button text={"copy to clipboard"} click={copyToClipboard}></Button>
-      <Button text={"add new preset"} click={addTag}></Button>
+      <Button text={"add new preset"} click={() => setIsOpen(true)}></Button>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <h2>Create New Preset</h2>
+        <TextBox setText={setPresetName} text={presetName}></TextBox>
+        <Button click={() => saveNewPreset()} text={"save"}></Button>
+        <Button click={() => setIsOpen(false)} text={"cancel"}></Button>
+      </Modal>
     </main>
   );
 }
