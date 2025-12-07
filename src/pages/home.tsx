@@ -7,6 +7,7 @@ import TagOutput from "../components/tag-output";
 import PresetList from "../components/preset-list";
 import PresetTitle from "../components/preset-title";
 import Modal from "../components/modal";
+import TextArea from "../components/textarea";
 
 export type StringArrayMap = Record<string, string[]>;
 function Home() {
@@ -15,7 +16,7 @@ function Home() {
     setCurTag("");
   }
   function copyToClipboard() {
-    navigator.clipboard.writeText(presets.default.toString());
+    navigator.clipboard.writeText(displayedTags.toString());
   }
   function changePreset(name: string) {
     setCurPreset(name);
@@ -51,7 +52,17 @@ function Home() {
 
   function sanitize(str: string) {
     let newTags = str.split(",");
-    return;
+    return newTags;
+  }
+  function saveTagsToNewPreset() {
+    setPresets((prev) => ({
+      ...prev,
+      [presetName]: [...sanitize(textAreaValue)],
+    }));
+
+    setPresetName("");
+
+    setIsOpen(false);
   }
   const [presetName, setPresetName] = useState<string>("");
   // list of presets
@@ -71,6 +82,10 @@ function Home() {
   );
   //used for the modal
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen1, setIsOpen1] = useState(false);
+  // used for pasting new tags into text area
+  const [textAreaValue, setTextAreaValue] = useState("");
+
   return (
     <main className="home-page">
       <TextBox text={curTag} setText={setCurTag}></TextBox>
@@ -93,6 +108,20 @@ function Home() {
           click={() => saveToNewPreset()}
           text={"save to new preset"}
         ></Button>
+      </Modal>
+      <TextArea text={textAreaValue} setText={setTextAreaValue}></TextArea>
+      <Button
+        text={"save tags to new preset"}
+        click={() => setIsOpen1(true)}
+      ></Button>
+      <Modal isOpen={isOpen1} onClose={() => setIsOpen1(false)}>
+        <h2>Create New Preset</h2>
+        <TextBox setText={setPresetName} text={presetName}></TextBox>
+        <Button
+          click={() => saveTagsToNewPreset()}
+          text={"create new preset"}
+        ></Button>
+        <Button click={() => setIsOpen1(false)} text={"cancel"}></Button>
       </Modal>
     </main>
   );
