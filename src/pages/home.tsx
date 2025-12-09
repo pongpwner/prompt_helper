@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import {useRef} from 'react'
 import "../App.css";
 import TextBox from "../components/textbox";
 import Button from "../components/button";
@@ -14,19 +15,23 @@ function Home() {
   function addTag() {
     setDisplayedTags((prevItems) => [...prevItems, " " + curTag]);
     setCurTag("");
+    mainInputRef.current?.focus(); 
   }
   function copyToClipboard() {
     navigator.clipboard.writeText(displayedTags.toString());
+    mainInputRef.current?.focus(); 
   }
   function changePreset(name: string) {
     setCurPreset(name);
     setDisplayedTags(presets[name]);
+    mainInputRef.current?.focus(); 
   }
   function savePreset() {
     setPresets((prev) => ({
       ...prev,
       [curPreset]: [...displayedTags],
     }));
+    mainInputRef.current?.focus(); 
   }
 
   function createNewPreset() {
@@ -38,6 +43,7 @@ function Home() {
     setPresetName("");
     setDisplayedTags([]);
     setIsOpen(false);
+    mainInputRef.current?.focus(); 
   }
   function saveToNewPreset() {
     setPresets((prev) => ({
@@ -48,6 +54,7 @@ function Home() {
     setPresetName("");
 
     setIsOpen(false);
+    mainInputRef.current?.focus(); 
   }
 
   function sanitize(str: string) {
@@ -62,8 +69,17 @@ function Home() {
 
     setPresetName("");
 
-    setIsOpen(false);
+    setIsOpen1(false);
+    mainInputRef.current?.focus(); 
   }
+  function kdAddTag(){
+    setDisplayedTags((prevItems) => [...prevItems, " " + curTag]);
+    setCurTag("");
+    mainInputRef.current?.focus(); 
+ 
+  }
+
+  const mainInputRef=useRef<HTMLInputElement>(null)
   const [presetName, setPresetName] = useState<string>("");
   // list of presets
   const [presets, setPresets] = useState<StringArrayMap>({
@@ -88,7 +104,7 @@ function Home() {
 
   return (
     <main className="home-page">
-      <TextBox text={curTag} setText={setCurTag}></TextBox>
+      <TextBox text={curTag} setText={setCurTag} keyDown={kdAddTag} refProp={mainInputRef}></TextBox>
       <Button text={"add tag"} click={addTag}></Button>
       <PresetTitle name={curPreset}></PresetTitle>
       <TagOutput tags={displayedTags}></TagOutput>
