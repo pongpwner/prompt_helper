@@ -1,5 +1,6 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getItem,setItem } from "../utils/local-storage";
 import {useRef} from 'react'
 import "../App.css";
 import TextBox from "../components/textbox";
@@ -11,6 +12,9 @@ import Modal from "../components/modal";
 import TextArea from "../components/textarea";
 
 export type StringArrayMap = Record<string, string[]>;
+
+
+
 function Home() {
   function addTag() {
     setDisplayedTags((prevItems) => [...prevItems, " " + curTag]);
@@ -82,10 +86,12 @@ function Home() {
   const mainInputRef=useRef<HTMLInputElement>(null)
   const [presetName, setPresetName] = useState<string>("");
   // list of presets
-  const [presets, setPresets] = useState<StringArrayMap>({
+  const [presets, setPresets] = useState<StringArrayMap>(()=>{
+    const item = getItem('presets')
+    return (item as StringArrayMap) || {
     default: ["1 girl"],
     one: ["2 girls"],
-  });
+  }});
   //the tag the user is typing into the text box
   const [curTag, setCurTag] = useState<string>("");
 
@@ -101,6 +107,10 @@ function Home() {
   const [isOpen1, setIsOpen1] = useState(false);
   // used for pasting new tags into text area
   const [textAreaValue, setTextAreaValue] = useState("");
+
+  useEffect(()=>{
+    setItem('presets', presets )
+  },[presets])
 
   return (
     <main className="home-page">
