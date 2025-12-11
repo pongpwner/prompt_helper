@@ -13,7 +13,7 @@ const SavedPreset: React.FC<SavedPresetProps> = ({
   return (
     <li key={key}>
       <button onClick={() => click(name)}>{name}</button>
-      <button onClick={() => deleteKey(name)}></button>
+      <button onClick={() => deleteKey(name)}>delete</button>
     </li>
   );
 };

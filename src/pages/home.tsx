@@ -79,12 +79,18 @@ function Home() {
     setCurTag("");
     mainInputRef.current?.focus();
   }
+  // deletes preset given a key
   const deleteKey = (key: string) => {
     setPresets((prev) => {
       const newMap = { ...prev };
       delete newMap[key];
       return newMap;
     });
+  };
+
+  // delete tags given its index
+  const deleteByIndex = (index: number) => {
+    setDisplayedTags((prev) => prev.filter((_, i) => i !== index));
   };
   const mainInputRef = useRef<HTMLInputElement>(null);
   const [presetName, setPresetName] = useState<string>("");
@@ -128,7 +134,7 @@ function Home() {
       ></TextBox>
       <Button text={"add tag"} click={addTag}></Button>
       <PresetTitle name={curPreset}></PresetTitle>
-      <TagOutput tags={displayedTags}></TagOutput>
+      <TagOutput tags={displayedTags} deleteTag={deleteByIndex}></TagOutput>
       <PresetList
         presetsMap={presets}
         click={changePreset}
