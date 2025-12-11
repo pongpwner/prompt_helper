@@ -2,11 +2,18 @@ interface SavedPresetProps {
   name: string;
   click: Function;
   key: number;
+  deleteKey: Function;
 }
-const SavedPreset: React.FC<SavedPresetProps> = ({ name, click, key }) => {
+const SavedPreset: React.FC<SavedPresetProps> = ({
+  name,
+  click,
+  key,
+  deleteKey,
+}) => {
   return (
     <li key={key}>
       <button onClick={() => click(name)}>{name}</button>
+      <button onClick={() => deleteKey(name)}></button>
     </li>
   );
 };

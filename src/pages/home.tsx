@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { getItem,setItem } from "../utils/local-storage";
-import {useRef} from 'react'
+import { getItem, setItem } from "../utils/local-storage";
+import { useRef } from "react";
 import "../App.css";
 import TextBox from "../components/textbox";
 import Button from "../components/button";
@@ -13,29 +13,27 @@ import TextArea from "../components/textarea";
 
 export type StringArrayMap = Record<string, string[]>;
 
-
-
 function Home() {
   function addTag() {
     setDisplayedTags((prevItems) => [...prevItems, " " + curTag]);
     setCurTag("");
-    mainInputRef.current?.focus(); 
+    mainInputRef.current?.focus();
   }
   function copyToClipboard() {
     navigator.clipboard.writeText(displayedTags.toString());
-    mainInputRef.current?.focus(); 
+    mainInputRef.current?.focus();
   }
   function changePreset(name: string) {
     setCurPreset(name);
     setDisplayedTags(presets[name]);
-    mainInputRef.current?.focus(); 
+    mainInputRef.current?.focus();
   }
   function savePreset() {
     setPresets((prev) => ({
       ...prev,
       [curPreset]: [...displayedTags],
     }));
-    mainInputRef.current?.focus(); 
+    mainInputRef.current?.focus();
   }
 
   function createNewPreset() {
@@ -47,7 +45,7 @@ function Home() {
     setPresetName("");
     setDisplayedTags([]);
     setIsOpen(false);
-    mainInputRef.current?.focus(); 
+    mainInputRef.current?.focus();
   }
   function saveToNewPreset() {
     setPresets((prev) => ({
@@ -58,7 +56,7 @@ function Home() {
     setPresetName("");
 
     setIsOpen(false);
-    mainInputRef.current?.focus(); 
+    mainInputRef.current?.focus();
   }
 
   function sanitize(str: string) {
@@ -74,24 +72,32 @@ function Home() {
     setPresetName("");
 
     setIsOpen1(false);
-    mainInputRef.current?.focus(); 
+    mainInputRef.current?.focus();
   }
-  function kdAddTag(){
+  function kdAddTag() {
     setDisplayedTags((prevItems) => [...prevItems, " " + curTag]);
     setCurTag("");
-    mainInputRef.current?.focus(); 
- 
+    mainInputRef.current?.focus();
   }
-
-  const mainInputRef=useRef<HTMLInputElement>(null)
+  const deleteKey = (key: string) => {
+    setPresets((prev) => {
+      const newMap = { ...prev };
+      delete newMap[key];
+      return newMap;
+    });
+  };
+  const mainInputRef = useRef<HTMLInputElement>(null);
   const [presetName, setPresetName] = useState<string>("");
   // list of presets
-  const [presets, setPresets] = useState<StringArrayMap>(()=>{
-    const item = getItem('presets')
-    return (item as StringArrayMap) || {
-    default: ["1 girl"],
-    one: ["2 girls"],
-  }});
+  const [presets, setPresets] = useState<StringArrayMap>(() => {
+    const item = getItem("presets");
+    return (
+      (item as StringArrayMap) || {
+        default: ["1 girl"],
+        one: ["2 girls"],
+      }
+    );
+  });
   //the tag the user is typing into the text box
   const [curTag, setCurTag] = useState<string>("");
 
@@ -108,17 +114,26 @@ function Home() {
   // used for pasting new tags into text area
   const [textAreaValue, setTextAreaValue] = useState("");
 
-  useEffect(()=>{
-    setItem('presets', presets )
-  },[presets])
+  useEffect(() => {
+    setItem("presets", presets);
+  }, [presets]);
 
   return (
     <main className="home-page">
-      <TextBox text={curTag} setText={setCurTag} keyDown={kdAddTag} refProp={mainInputRef}></TextBox>
+      <TextBox
+        text={curTag}
+        setText={setCurTag}
+        keyDown={kdAddTag}
+        refProp={mainInputRef}
+      ></TextBox>
       <Button text={"add tag"} click={addTag}></Button>
       <PresetTitle name={curPreset}></PresetTitle>
       <TagOutput tags={displayedTags}></TagOutput>
-      <PresetList presetsMap={presets} click={changePreset}></PresetList>
+      <PresetList
+        presetsMap={presets}
+        click={changePreset}
+        deleteKey={deleteKey}
+      ></PresetList>
       <Button text={"save"} click={savePreset}></Button>
       <Button text={"copy to clipboard"} click={copyToClipboard}></Button>
       <Button text={"add new preset"} click={() => setIsOpen(true)}></Button>
