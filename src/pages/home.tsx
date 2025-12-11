@@ -104,6 +104,38 @@ function Home() {
       }
     );
   });
+  const addBrace = (str: string): string => {
+    const hasParenWrap = str.startsWith("[") && str.endsWith("]");
+
+    if (hasParenWrap) {
+      // remove parentheses
+      return str.slice(1, -1);
+    }
+
+    return `{${str}}`;
+  };
+
+  const addBracket = (str: string): string => {
+    const hasBraceWrap = str.startsWith("{") && str.endsWith("}");
+
+    if (hasBraceWrap) {
+      // remove parentheses
+      return str.slice(1, -1);
+    }
+
+    return `[${str}]`;
+  };
+  const addWeight = (index: number) => {
+    setDisplayedTags((prev) =>
+      prev.map((item, i) => (i === index ? addBrace(item) : item))
+    );
+  };
+  const subtractWeight = (index: number) => {
+    setDisplayedTags((prev) =>
+      prev.map((item, i) => (i === index ? addBracket(item) : item))
+    );
+  };
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
   //the tag the user is typing into the text box
   const [curTag, setCurTag] = useState<string>("");
 
@@ -134,7 +166,12 @@ function Home() {
       ></TextBox>
       <Button text={"add tag"} click={addTag}></Button>
       <PresetTitle name={curPreset}></PresetTitle>
-      <TagOutput tags={displayedTags} deleteTag={deleteByIndex}></TagOutput>
+      <TagOutput
+        tags={displayedTags}
+        deleteTag={deleteByIndex}
+        addWeight={addWeight}
+        subtractWeight={subtractWeight}
+      ></TagOutput>
       <PresetList
         presetsMap={presets}
         click={changePreset}
