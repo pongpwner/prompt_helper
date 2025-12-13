@@ -10,6 +10,7 @@ import PresetList from "../components/preset-list";
 import PresetTitle from "../components/preset-title";
 import Modal from "../components/modal";
 import TextArea from "../components/textarea";
+import { closestCorners, DndContext } from "@dnd-kit/core";
 
 export type StringArrayMap = Record<string, string[]>;
 
@@ -166,12 +167,14 @@ function Home() {
       ></TextBox>
       <Button text={"add tag"} click={addTag}></Button>
       <PresetTitle name={curPreset}></PresetTitle>
+      <DndContext collisionDetection={closestCorners}>
       <TagOutput
         tags={displayedTags}
         deleteTag={deleteByIndex}
         addWeight={addWeight}
         subtractWeight={subtractWeight}
       ></TagOutput>
+      </DndContext>
       <PresetList
         presetsMap={presets}
         click={changePreset}
