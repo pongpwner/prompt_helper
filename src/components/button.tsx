@@ -6,7 +6,10 @@ interface ButtonProps {
 }
 const Button: React.FC<ButtonProps> = ({ text, click }) => {
   return (
-    <button className="w-3xs" onClick={() => click()}>
+    <button
+      className="bg-sky-300 border rounded text-black px-2 py-1"
+      onClick={() => click()}
+    >
       {text}
     </button>
   );

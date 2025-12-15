@@ -11,9 +11,16 @@ const SavedPreset: React.FC<SavedPresetProps> = ({
   deleteKey,
 }) => {
   return (
-    <li key={key}>
-      <button onClick={() => click(name)}>{name}</button>
-      <button onClick={() => deleteKey(name)}>delete</button>
+    <li key={key} className="border flex justify-between">
+      <button
+        className="flex flex-1 justify-center"
+        onClick={() => click(name)}
+      >
+        {name}
+      </button>
+      <button className="bg-red-500 px-2" onClick={() => deleteKey(name)}>
+        X
+      </button>
     </li>
   );
 };

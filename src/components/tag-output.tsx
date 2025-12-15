@@ -14,19 +14,17 @@ const TagOutput: React.FC<TagOutputProps> = ({
   subtractWeight,
 }) => {
   return (
-    <div>
-      <ol className="border border-black">
-        {tags.map((tag: string, index: number) => (
-          <Tag
-            tag={tag}
-            id={index}
-            deleteTag={deleteTag}
-            addWeight={addWeight}
-            subtractWeight={subtractWeight}
-          ></Tag>
-        ))}
-      </ol>
-    </div>
+    <ol className="h-[50vh] w-[25vw] overflow-y-auto list-decimal list-inside space-y-2 border p-4 rounded gap">
+      {tags.map((tag: string, index: number) => (
+        <Tag
+          tag={tag}
+          id={index}
+          deleteTag={deleteTag}
+          addWeight={addWeight}
+          subtractWeight={subtractWeight}
+        ></Tag>
+      ))}
+    </ol>
   );
 };
 export default TagOutput;

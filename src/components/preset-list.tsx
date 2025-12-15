@@ -11,7 +11,7 @@ const PresetList: React.FC<PresetListProps> = ({
   deleteKey,
 }) => {
   return (
-    <ol>
+    <ol className="h-[50vh] w-[25vw] overflow-y-auto list-inside space-y-2 border p-4 rounded gap">
       {Object.keys(presetsMap).map((preset: string, index: number) => (
         <SavedPreset
           name={preset}

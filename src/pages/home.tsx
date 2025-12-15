@@ -157,7 +157,7 @@ function Home() {
   }, [presets]);
 
   return (
-    <main className="home-page">
+    <main className="home-page max-w-screen">
       <TextBox
         text={curTag}
         setText={setCurTag}
@@ -166,46 +166,65 @@ function Home() {
       ></TextBox>
       <Button text={"add tag"} click={addTag}></Button>
       <PresetTitle name={curPreset}></PresetTitle>
-      <TagOutput
-        tags={displayedTags}
-        deleteTag={deleteByIndex}
-        addWeight={addWeight}
-        subtractWeight={subtractWeight}
-      ></TagOutput>
-      <PresetList
-        presetsMap={presets}
-        click={changePreset}
-        deleteKey={deleteKey}
-      ></PresetList>
-      <Button text={"save"} click={savePreset}></Button>
-      <Button text={"copy to clipboard"} click={copyToClipboard}></Button>
-      <Button text={"add new preset"} click={() => setIsOpen(true)}></Button>
+      <span className="flex justify-center w-[100vw] gap-4 m-2">
+        <PresetList
+          presetsMap={presets}
+          click={changePreset}
+          deleteKey={deleteKey}
+        ></PresetList>
+        <TagOutput
+          tags={displayedTags}
+          deleteTag={deleteByIndex}
+          addWeight={addWeight}
+          subtractWeight={subtractWeight}
+        ></TagOutput>
+
+        <span className=" flex flex-col gap-2 justify-between">
+          <Button text={"copy to clipboard"} click={copyToClipboard}></Button>
+          <span className="flex flex-col gap-2">
+            <Button text={"save"} click={savePreset}></Button>
+            <Button
+              text={"add new preset"}
+              click={() => setIsOpen(true)}
+            ></Button>
+          </span>
+          <Button
+            text={"save tags to new preset"}
+            click={() => setIsOpen1(true)}
+          ></Button>
+        </span>
+      </span>
+
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <h2>Create New Preset</h2>
+        <h2 className="text-black">Create New Preset</h2>
+
         <TextBox setText={setPresetName} text={presetName}></TextBox>
-        <Button
-          click={() => createNewPreset()}
-          text={"create new preset"}
-        ></Button>
+
         <Button click={() => setIsOpen(false)} text={"cancel"}></Button>
-        <Button
-          click={() => saveToNewPreset()}
-          text={"save to new preset"}
-        ></Button>
+        <span className="flex gap-3 justify-center my-2">
+          <Button
+            click={() => createNewPreset()}
+            text={"create new preset"}
+          ></Button>
+
+          <Button
+            click={() => saveToNewPreset()}
+            text={"save tags to new preset"}
+          ></Button>
+        </span>
       </Modal>
       <TextArea text={textAreaValue} setText={setTextAreaValue}></TextArea>
-      <Button
-        text={"save tags to new preset"}
-        click={() => setIsOpen1(true)}
-      ></Button>
+
       <Modal isOpen={isOpen1} onClose={() => setIsOpen1(false)}>
-        <h2>Create New Preset</h2>
-        <TextBox setText={setPresetName} text={presetName}></TextBox>
-        <Button
-          click={() => saveTagsToNewPreset()}
-          text={"create new preset"}
-        ></Button>
-        <Button click={() => setIsOpen1(false)} text={"cancel"}></Button>
+        <h2 className="text-black">Create New Preset</h2>
+        <span className="flex gap-3 justify-center">
+          <TextBox setText={setPresetName} text={presetName}></TextBox>
+          <Button
+            click={() => saveTagsToNewPreset()}
+            text={"create pasted tags preset"}
+          ></Button>
+          <Button click={() => setIsOpen1(false)} text={"cancel"}></Button>
+        </span>
       </Modal>
     </main>
   );
