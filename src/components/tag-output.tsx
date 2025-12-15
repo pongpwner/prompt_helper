@@ -1,3 +1,4 @@
+import Tag from "./tag";
 interface TagOutputProps {
   tags: Array<string>;
 
@@ -16,12 +17,13 @@ const TagOutput: React.FC<TagOutputProps> = ({
     <div>
       <ol className="border border-black">
         {tags.map((tag: string, index: number) => (
-          <li key={index} className="flex">
-            <button onClick={() => subtractWeight(index)}>-</button>
-            <button onClick={() => addWeight(index)}>+</button>
-            <div>{tag + ","}</div>
-            <button onClick={() => deleteTag(index)}>X</button>
-          </li>
+          <Tag
+            tag={tag}
+            id={index}
+            deleteTag={deleteTag}
+            addWeight={addWeight}
+            subtractWeight={subtractWeight}
+          ></Tag>
         ))}
       </ol>
     </div>
