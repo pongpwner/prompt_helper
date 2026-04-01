@@ -1,5 +1,6 @@
 {
   "name": "prompt_helper",
+  "homepage": "https://pongpwner.github.io/prompt-helper/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,6 +13,7 @@
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.14",
     "@tailwindcss/vite": "^4.1.14",
+    "gh-pages": "^6.3.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "tailwindcss": "^4.1.14"
