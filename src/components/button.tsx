@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface ButtonProps {
   text: string;
   click: Function;

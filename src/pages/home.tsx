@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { getItem, setItem } from "../utils/local-storage";
 import { useRef } from "react";
@@ -127,12 +126,12 @@ function Home() {
   };
   const addWeight = (index: number) => {
     setDisplayedTags((prev) =>
-      prev.map((item, i) => (i === index ? addBrace(item) : item))
+      prev.map((item, i) => (i === index ? addBrace(item) : item)),
     );
   };
   const subtractWeight = (index: number) => {
     setDisplayedTags((prev) =>
-      prev.map((item, i) => (i === index ? addBracket(item) : item))
+      prev.map((item, i) => (i === index ? addBracket(item) : item)),
     );
   };
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,7 +143,7 @@ function Home() {
 
   // the tags that will be displayed on screen in tag output. this copies the tags of curPreset so you can edit these without overwriting the original
   const [displayedTags, setDisplayedTags] = useState<Array<string>>(
-    presets[curPreset]
+    presets[curPreset],
   );
   //used for the modal
   const [isOpen, setIsOpen] = useState(false);
